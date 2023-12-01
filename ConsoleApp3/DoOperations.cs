@@ -2,7 +2,7 @@
 
 public class DoOperations
 {
-
+    
     // Выполнение операции
     public double Calculate(double num1, double num2, char operation)
     {

@@ -44,6 +44,22 @@ DoOperations doOperations = new DoOperations();
 // сначала выполняются операции выше по приоритету
 for (int i = 0; i < operations.Count; i++)
 {
+    if (operations[i] == '^')
+    {
+        // передаем в метод Calculate две переменные и операцию
+        // записываем результат в том же массиве чисел
+        numbers[i] = doOperations.Calculate(numbers[i], numbers[i + 1], operations[i]);
+        // удаляем использованную для подсчета переменную
+        numbers.RemoveAt(i + 1);
+        // удаляем использованный для подсчета оператор
+        operations.RemoveAt(i);
+        i--;
+    }
+}
+
+// сначала выполняются операции выше по приоритету
+for (int i = 0; i < operations.Count; i++)
+{
     if (operations[i] == '*' || operations[i] == '/')
     {
         // передаем в метод Calculate две переменные и операцию
