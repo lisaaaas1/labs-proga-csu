@@ -18,7 +18,7 @@ Console.WriteLine("Результат операций: " + result);
 // приводим строку к опз
 static string convertToRPN(string expression)
 {
-    StringBuilder postfixExpression = new StringBuilder();
+    StringBuilder expressionRPN = new StringBuilder();
     Stack<char> operators = new Stack<char>();
 
     foreach (char token in expression)
@@ -26,7 +26,7 @@ static string convertToRPN(string expression)
         if (char.IsDigit(token))
         {
             // если токен - число, добавляем его к строке опз
-            postfixExpression.Append(token);
+            expressionRPN.Append(token);
         }
         else if (token == '(')
         {
@@ -37,7 +37,7 @@ static string convertToRPN(string expression)
             // пока не встретим открывающую скобку, выталкиваем операторы из стека в строку опз
             while (operators.Count > 0 && operators.Peek() != '(')
             {
-                postfixExpression.Append(operators.Pop());
+                expressionRPN.Append(operators.Pop());
             }
 
             // убираем '(' из стека
@@ -48,7 +48,7 @@ static string convertToRPN(string expression)
             // пока операторы в стеке имеют больший или равный приоритет, выталкиваем их в строку опз
             while (operators.Count > 0 && GetPrecedence(token) <= GetPrecedence(operators.Peek()))
             {
-                postfixExpression.Append(operators.Pop());
+                expressionRPN.Append(operators.Pop());
             }
 
             operators.Push(token);
@@ -58,10 +58,10 @@ static string convertToRPN(string expression)
     // обработка оставшихся операторов в стеке
     while (operators.Count > 0)
     {
-        postfixExpression.Append(operators.Pop());
+        expressionRPN.Append(operators.Pop());
     }
 
-    return postfixExpression.ToString();
+    return expressionRPN.ToString();
 }
 
 // расставляем приоритеоты
@@ -78,7 +78,7 @@ static int GetPrecedence(char op)
         case '/':
             return 2;
         default:
-            return 0; // Если не оператор, возвращаем 0
+            return 0; // если не оператор, возвращаем 0
     }
 }
 
@@ -88,16 +88,16 @@ static double doRPN(string expressionRPNString)
 {
     Stack<double> stack = new Stack<double>();
     string[] tokens = expressionRPNString.Split(new char[] { '+', '-', '*', '/' }, StringSplitOptions.RemoveEmptyEntries);
-    Console.WriteLine(tokens);
+    
     foreach (var token in tokens)
     {
-        if (double.TryParse(token, out double num))
+        if (double.TryParse(token, out var num))
         {
             stack.Push(num);
         }
         else if (IsOperator(token))
         {
-            if (stack.Count < 2)
+            if (stack.Count < 2) 
             {
                 Console.WriteLine("Ошибка");
             }
@@ -120,7 +120,8 @@ static double doRPN(string expressionRPNString)
                     stack.Push(num1 / num2);
                     break;
                 default:
-                    throw new ArgumentException($"Unsupported operator: {token}");
+                    throw new ArgumentException($"Этот оператор пока не поддерживается: {token}");
+                    
             }
         }
         else
