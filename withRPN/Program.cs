@@ -8,8 +8,7 @@ Console.WriteLine("Обратная польская запись");
 // получаем выражение
 Console.WriteLine("Введите выражение: ");
 string expression = Console.ReadLine();
-Console.WriteLine(RPN.ResultRPN(expression)); 
-
+Console.WriteLine("Ваш результат: "+RPN.ResultRPN(expression)); 
 
 // преобразование входной строки в строку опз
 string RPNexpression = RPN.DoExpressionToRPN(expression);
