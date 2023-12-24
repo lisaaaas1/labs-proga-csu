@@ -1,5 +1,4 @@
 ﻿using System.Text;
-
 namespace withRPN;
 
 public class RPN
